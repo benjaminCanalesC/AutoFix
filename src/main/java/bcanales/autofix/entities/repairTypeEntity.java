@@ -1,4 +1,4 @@
 package bcanales.autofix.entities;
 
-public class repairType {
+public class repairTypeEntity {
 }

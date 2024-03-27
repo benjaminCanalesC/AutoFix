@@ -10,13 +10,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicle")
-public class vehicle {
+public class vehicleEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String patent;
+
+    @Column(unique = true, nullable = false)
+    private String plate;
     private String model;
     private int fabricationYear;
     private int seats;
+
+    @ManyToOne
+    //@JoinColumn(name = "id_profile")
+    vehicleBrandEntity vehicleBrand;
+
+    @ManyToOne
+    //@JoinColumn(name = "id_profile")
+    vehicleEngineEntity vehicleEngine;
+
+    @ManyToOne
+    //@JoinColumn(name = "id_profile")
+    vehicleTypeEntity vehicleType;
 }
