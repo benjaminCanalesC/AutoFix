@@ -1,4 +1,4 @@
 package bcanales.autofix.entities;
 
-public class motorType {
+public class vehicleEngine {
 }
