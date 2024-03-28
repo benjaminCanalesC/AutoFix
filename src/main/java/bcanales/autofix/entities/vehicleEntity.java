@@ -23,14 +23,14 @@ public class vehicleEntity {
     private int seats;
 
     @ManyToOne
-    //@JoinColumn(name = "id_profile")
+    @JoinColumn(name = "vehicleBrand")
     vehicleBrandEntity vehicleBrand;
 
     @ManyToOne
-    //@JoinColumn(name = "id_profile")
+    @JoinColumn(name = "vehicleEngine")
     vehicleEngineEntity vehicleEngine;
 
     @ManyToOne
-    //@JoinColumn(name = "id_profile")
+    @JoinColumn(name = "vehicleType")
     vehicleTypeEntity vehicleType;
 }
