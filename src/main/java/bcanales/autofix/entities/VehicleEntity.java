@@ -20,6 +20,7 @@ public class VehicleEntity {
     private String plate;
     private String model;
     private int fabricationYear;
+    private int mileage;
     private int seats;
 
     @ManyToOne
