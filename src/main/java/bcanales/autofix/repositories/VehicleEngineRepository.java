@@ -1,9 +1,9 @@
 package bcanales.autofix.repositories;
 
-import bcanales.autofix.entities.vehicleEntity;
+import bcanales.autofix.entities.VehicleEngineEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface vehicleRepository extends JpaRepository<vehicleEntity, Long> {
+public interface VehicleEngineRepository extends JpaRepository<VehicleEngineEntity, Long> {
 }

@@ -9,11 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "vehicleBrand")
-public class vehicleBrandEntity {
+@Table(name = "repairType")
+public class RepairTypeEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String brand;
+    private String repairType;
+    private String repairDescription;
+    private int gasolineCost;
+    private int dieselCost;
+    private int hybridCost;
+    private int electricCost;
 }

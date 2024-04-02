@@ -1,17 +1,17 @@
 package bcanales.autofix.services;
 
-import bcanales.autofix.entities.vehicleEntity;
-import bcanales.autofix.repositories.vehicleRepository;
+import bcanales.autofix.entities.VehicleEntity;
+import bcanales.autofix.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
-public class vehicleService {
+public class VehicleService {
     @Autowired
-    vehicleRepository vehicleRepository;
-    public vehicleEntity saveVehicle(vehicleEntity vehicle) throws Exception {
+    VehicleRepository vehicleRepository;
+    public VehicleEntity saveVehicle(VehicleEntity vehicle) throws Exception {
         //Correctly plate analyze
         String plate = vehicle.getPlate();
         if (plate.length() != 6) {
@@ -34,7 +34,7 @@ public class vehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-    public ArrayList<vehicleEntity> getVehicles() {
-        return (ArrayList<vehicleEntity>) vehicleRepository.findAll();
+    public ArrayList<VehicleEntity> getVehicles() {
+        return (ArrayList<VehicleEntity>) vehicleRepository.findAll();
     }
 }

@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "vehicleEngine")
-public class vehicleEngineEntity {
+@Table(name = "vehicleType")
+public class VehicleTypeEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String engine;
+    private String type;
 }

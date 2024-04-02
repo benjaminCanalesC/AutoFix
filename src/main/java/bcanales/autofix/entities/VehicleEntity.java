@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicle")
-public class vehicleEntity {
+public class VehicleEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +24,13 @@ public class vehicleEntity {
 
     @ManyToOne
     @JoinColumn(name = "vehicleBrand")
-    vehicleBrandEntity vehicleBrand;
+    VehicleBrandEntity vehicleBrand;
 
     @ManyToOne
     @JoinColumn(name = "vehicleEngine")
-    vehicleEngineEntity vehicleEngine;
+    VehicleEngineEntity vehicleEngine;
 
     @ManyToOne
     @JoinColumn(name = "vehicleType")
-    vehicleTypeEntity vehicleType;
+    VehicleTypeEntity vehicleType;
 }
