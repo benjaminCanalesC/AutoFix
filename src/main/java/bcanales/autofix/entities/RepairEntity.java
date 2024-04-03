@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -19,16 +18,13 @@ public class RepairEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate entryDate;
-    private LocalTime entryTime;
+    private LocalDateTime entryDateTime;
 
     private int repairCost;
 
-    private LocalDate exitDate;
-    private LocalTime exitTime;
+    private LocalDateTime exitDateTime;
 
-    private LocalDate pickupDate;
-    private LocalTime pickupTime;
+    private LocalDateTime pickupDateTime;
 
     @ManyToOne
     @JoinColumn(name = "repairType")

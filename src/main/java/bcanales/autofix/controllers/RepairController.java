@@ -16,7 +16,7 @@ public class RepairController {
     RepairService repairService;
 
     @PostMapping("/")
-    public ResponseEntity<RepairEntity> saveRepair(@RequestBody RepairEntity repair) {
+    public ResponseEntity<RepairEntity> saveRepair(@RequestBody RepairEntity repair) throws Exception {
         RepairEntity newRepair = repairService.saveRepair(repair);
         return  ResponseEntity.ok(newRepair);
     }

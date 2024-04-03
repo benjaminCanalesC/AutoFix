@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RepairRepository extends JpaRepository<RepairEntity, Long> {
+    int countByVehicleId(Long vehicleId);
 }
