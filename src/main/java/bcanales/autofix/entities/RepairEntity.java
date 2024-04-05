@@ -18,9 +18,13 @@ public class RepairEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime entryDateTime;
-
     private int repairCost;
+    private int baseRepairCost;
+    private int discount;
+    private int surcharge;
+    private int iva;
+
+    private LocalDateTime entryDateTime;
 
     private LocalDateTime exitDateTime;
 

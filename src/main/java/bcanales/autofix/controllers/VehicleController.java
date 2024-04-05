@@ -26,4 +26,10 @@ public class VehicleController {
         List<VehicleEntity> vehicles = vehicleService.getVehicles();
         return ResponseEntity.ok(vehicles);
     }
+
+    @PutMapping("/")
+    public ResponseEntity<VehicleEntity> updateVehicle(@RequestBody VehicleEntity vehicle) {
+        VehicleEntity newVehicle = vehicleService.updateVehicle(vehicle);
+        return  ResponseEntity.ok(newVehicle);
+    }
 }

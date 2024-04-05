@@ -1,12 +1,13 @@
 package bcanales.autofix.services;
 
+import bcanales.autofix.entities.RepairEntity;
 import bcanales.autofix.entities.VehicleEntity;
-import bcanales.autofix.repositories.RepairRepository;
 import bcanales.autofix.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class SurchargeService {
@@ -55,5 +56,10 @@ public class SurchargeService {
         } else {
             throw new Exception("Invalid Vehicle Type");
         }
+    }
+
+    public double surchargeByPickupDelay(RepairEntity repair) {
+        int delayDays = (int) ChronoUnit.DAYS.between(repair.getExitDateTime(), repair.getPickupDateTime());
+        return delayDays * 0.05;
     }
 }

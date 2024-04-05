@@ -26,4 +26,10 @@ public class RepairController {
         List<RepairEntity> repairs = repairService.getRepairs();
         return ResponseEntity.ok(repairs);
     }
+
+    @PutMapping("/")
+    public ResponseEntity<RepairEntity> updateRepair(@RequestBody RepairEntity repair) {
+        RepairEntity newRepair = repairService.updateRepair(repair);
+        return ResponseEntity.ok(newRepair);
+    }
 }
