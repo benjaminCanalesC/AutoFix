@@ -44,7 +44,7 @@ public class VehicleService {
         return vehicleRepository.findById(id);
     }
 
-    public Optional<VehicleEntity> findByPlate(String plate) { return vehicleRepository.findByPlate(plate); }
+    public Optional<VehicleEntity> getVehicleByPlate(String plate) { return vehicleRepository.findByPlate(plate); }
 
     public VehicleEntity updateVehicle(VehicleEntity vehicle) {
         VehicleEntity existingVehicle = vehicleRepository.findById(vehicle.getId())

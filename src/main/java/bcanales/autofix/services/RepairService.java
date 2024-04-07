@@ -24,6 +24,8 @@ public class RepairService {
     DiscountService discountService;
     @Autowired
     SurchargeService surchargeService;
+    @Autowired
+    BrandDiscountService brandDiscountService;
 
     public RepairEntity saveRepair(RepairEntity repair) throws Exception {
         int repairCost = calculateRepairCost(repair);
@@ -69,7 +71,8 @@ public class RepairService {
 
     public int calculateRepairCost(RepairEntity repair) throws Exception {
         Long vehicleId = repair.getVehicle().getId();
-        VehicleEntity vehicle = vehicleService.getVehicleById(vehicleId).get();
+        VehicleEntity vehicle = vehicleService.getVehicleById(vehicleId)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle with id " + vehicleId + "does not exist."));
 
         String vehicleEngine = vehicle.getVehicleEngine().getEngine();
 
@@ -99,14 +102,13 @@ public class RepairService {
 
         double discountPercentage = discountService.discountByRepairs(vehicle) +
                 discountService.discountByAttentionDays(repair);
-
-        int discount = (int) Math.round(discountPercentage * baseRepairCost);
+        int bonusDiscount = brandDiscountService.calculateBrandDiscount(repair);
+        int discount = (int) Math.round(discountPercentage * baseRepairCost) + bonusDiscount;
 
         repair.setDiscount(discount);
 
         double surchargePercentage = surchargeService.surchargeByMileage(vehicle) +
                 surchargeService.surchargeByVehicleYears(vehicle);
-
         int surcharge = (int) Math.round(surchargePercentage * baseRepairCost);
 
         repair.setSurcharge(surcharge);

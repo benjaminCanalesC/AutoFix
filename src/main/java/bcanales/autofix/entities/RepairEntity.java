@@ -23,6 +23,7 @@ public class RepairEntity {
     private int discount;
     private int surcharge;
     private int iva;
+    private boolean bonusDiscount;
 
     private LocalDateTime entryDateTime;
 
