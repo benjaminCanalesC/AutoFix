@@ -80,4 +80,13 @@ public class VehicleService {
 
         return vehicleRepository.save(existingVehicle);
     }
+
+    public boolean deleteVehicle(Long id) throws Exception {
+        try{
+            vehicleRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 }

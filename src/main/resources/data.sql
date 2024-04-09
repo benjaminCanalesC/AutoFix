@@ -13,10 +13,10 @@ INSERT INTO vehicle_brand (brand) VALUES
 
 
 INSERT INTO vehicle_engine (engine) VALUES
-                               ('Gasoline'),
+                               ('Gasolina'),
                                ('Diesel'),
-                               ('Hybrid'),
-                               ('Electric');
+                               ('Hibrido'),
+                               ('Electrico');
 
 INSERT INTO vehicle_type (type) VALUES
                                     ('Sedan'),
@@ -70,29 +70,20 @@ INSERT INTO vehicle (plate, model, mileage, seats, fabrication_year, vehicle_bra
 -- Vehículo 15: Nissan Xterra, SUV, Gasolina, año 2003 (>16 años, 0-5000 km)
     ('EFGH89', 'Xterra', 4500, 5, 2003, 4, 1, 3);
 
-INSERT INTO vehicle_type (type) VALUES
-                                    ('Sedan'),
-                                    ('Hatchback'),
-                                    ('SUV'),
-                                    ('Pickup'),
-                                    ('Furgonetas');
-
 INSERT INTO repair_type (
     repair_type,
     repair_description,
     gasoline_cost,
     diesel_cost,
     hybrid_cost,
-    electric_cost,
-    vehicle_type_id
-) VALUES
+    electric_cost) VALUES
       (
           'Reparaciones del Sistema de Frenos',
           'Incluye el reemplazo de pastillas de freno, discos, tambores, líneas de freno y reparación o reemplazo del cilindro maestro de frenos.',
           120000,
           120000,
           180000,
-          220000,
+          220000
       ),
       (
           'Servicio del Sistema de Refrigeración',
@@ -100,7 +91,7 @@ INSERT INTO repair_type (
           130000,
           130000,
           190000,
-          230000,
+          230000
       ),
       (
           'Reparaciones del Motor',
@@ -108,7 +99,7 @@ INSERT INTO repair_type (
           350000,
           450000,
           700000,
-          800000,
+          800000
       ),
       (
           'Reparaciones de la Transmisión',
@@ -116,7 +107,7 @@ INSERT INTO repair_type (
           210000,
           210000,
           300000,
-          300000,
+          300000
       ),
       (
           'Reparación del Sistema Eléctrico',
@@ -124,7 +115,7 @@ INSERT INTO repair_type (
           150000,
           150000,
           200000,
-          250000,
+          250000
       ),
       (
           'Reparaciones del Sistema de Escape',
@@ -132,7 +123,7 @@ INSERT INTO repair_type (
           100000,
           120000,
           450000,
-          0,
+          0
       ),
       (
           'Reparación de Neumáticos y Ruedas',
@@ -140,7 +131,7 @@ INSERT INTO repair_type (
           100000,
           100000,
           100000,
-          100000,
+          100000
       ),
       (
           'Reparaciones de la Suspensión y la Dirección',
@@ -148,7 +139,7 @@ INSERT INTO repair_type (
           180000,
           180000,
           210000,
-          250000,
+          250000
       ),
       (
           'Reparación del Sistema de Aire Acondicionado y Calefacción',
@@ -156,7 +147,7 @@ INSERT INTO repair_type (
           150000,
           150000,
           180000,
-          180000,
+          180000
       ),
       (
           'Reparaciones del Sistema de Combustible',
@@ -164,7 +155,7 @@ INSERT INTO repair_type (
           130000,
           140000,
           220000,
-          0,
+          0
       ),
       (
           'Reparación y Reemplazo del Parabrisas y Cristales',
@@ -172,5 +163,5 @@ INSERT INTO repair_type (
           80000,
           80000,
           80000,
-          80000,
+          80000
       );
