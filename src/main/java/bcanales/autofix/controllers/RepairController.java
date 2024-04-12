@@ -3,8 +3,10 @@ package bcanales.autofix.controllers;
 import bcanales.autofix.entities.RepairEntity;
 import bcanales.autofix.services.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,6 +27,13 @@ public class RepairController {
     public ResponseEntity<List<RepairEntity>> getRepairs() {
         List<RepairEntity> repairs = repairService.getRepairs();
         return ResponseEntity.ok(repairs);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RepairEntity> getRepairById(@PathVariable Long id) {
+        RepairEntity repair = repairService.getRepairById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Repair not found"));
+        return  ResponseEntity.ok(repair);
     }
 
     @PutMapping("/")

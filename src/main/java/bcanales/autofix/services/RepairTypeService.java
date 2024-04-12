@@ -5,6 +5,7 @@ import bcanales.autofix.repositories.RepairTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -14,6 +15,10 @@ public class RepairTypeService {
 
     public RepairTypeEntity saveRepairType(RepairTypeEntity repairType) {
         return repairTypeRepository.save(repairType);
+    }
+
+    public ArrayList<RepairTypeEntity> getRepairTypes() {
+        return (ArrayList<RepairTypeEntity>) repairTypeRepository.findAll();
     }
 
     public Optional<RepairTypeEntity> getRepairTypeById(Long id) {

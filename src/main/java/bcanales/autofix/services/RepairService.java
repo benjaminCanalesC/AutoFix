@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RepairService {
@@ -33,9 +35,21 @@ public class RepairService {
         return repairRepository.save(repair);
     }
 
+    public Optional<RepairEntity> getRepairById(Long id) {
+        return repairRepository.findById(id);
+    }
+
     public ArrayList<RepairEntity> getRepairs() {
         return (ArrayList<RepairEntity>) repairRepository.findAll();
     }
+
+    public List<Object[]> getAverageRepairTimeByBrand() { return repairRepository.findAverageRepairTimeByBrand(); }
+
+    public List<Object[]> getRepairsEngineType() { return repairRepository.findRepairsByEngineType(); }
+
+    public List<Object[]> getRepairDetails() { return repairRepository.findAllRepairDetails(); }
+
+    public List<Object[]> getRepairsVehicleType() { return repairRepository.findRepairsByVehicleTypes(); }
 
     public RepairEntity updateRepair(RepairEntity repair) {
         RepairEntity existingRepair = repairRepository.findById(repair.getId())
@@ -70,15 +84,17 @@ public class RepairService {
     }
 
     public int calculateRepairCost(RepairEntity repair) throws Exception {
-        Long vehicleId = repair.getVehicle().getId();
-        VehicleEntity vehicle = vehicleService.getVehicleById(vehicleId)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle with id " + vehicleId + "does not exist."));
+        String vehiclePlate = repair.getVehicle().getPlate();
+        VehicleEntity vehicle = vehicleService.getVehicleByPlate(vehiclePlate)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle with plate " + vehiclePlate + "does not exist."));
+
+        repair.setVehicle(vehicle);
 
         String vehicleEngine = vehicle.getVehicleEngine().getEngine();
 
         int baseRepairCost;
 
-        if (vehicleEngine.equals("Gasoline")) {
+        if (vehicleEngine.equals("Gasolina")) {
             Long repairTypeId = repair.getRepairType().getId();
             RepairTypeEntity repairType = repairTypeService.getRepairTypeById(repairTypeId).get();
             baseRepairCost = repairType.getGasolineCost();
@@ -86,11 +102,11 @@ public class RepairService {
             Long repairTypeId = repair.getRepairType().getId();
             RepairTypeEntity repairType = repairTypeService.getRepairTypeById(repairTypeId).get();
             baseRepairCost = repairType.getDieselCost();
-        } else if (vehicleEngine.equals("Hybrid")) {
+        } else if (vehicleEngine.equals("Hibrido")) {
             Long repairTypeId = repair.getRepairType().getId();
             RepairTypeEntity repairType = repairTypeService.getRepairTypeById(repairTypeId).get();
             baseRepairCost = repairType.getHybridCost();
-        } else if (vehicleEngine.equals("Electric")) {
+        } else if (vehicleEngine.equals("Electrico")) {
             Long repairTypeId = repair.getRepairType().getId();
             RepairTypeEntity repairType = repairTypeService.getRepairTypeById(repairTypeId).get();
             baseRepairCost = repairType.getElectricCost();
