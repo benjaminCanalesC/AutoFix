@@ -23,7 +23,7 @@ INSERT INTO vehicle_type (type) VALUES
                                     ('Hatchback'),
                                     ('SUV'),
                                     ('Pickup'),
-                                    ('Furgonetas');
+                                    ('Furgoneta');
 
 INSERT INTO vehicle (plate, model, mileage, seats, fabrication_year, vehicle_brand, vehicle_engine, vehicle_type) VALUES
 -- Vehículo 1: Toyota Camry, Sedán, Híbrido, año 2019

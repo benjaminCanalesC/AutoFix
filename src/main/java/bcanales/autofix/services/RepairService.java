@@ -51,6 +51,15 @@ public class RepairService {
 
     public List<Object[]> getRepairsVehicleType() { return repairRepository.findRepairsByVehicleTypes(); }
 
+    public boolean deleteRepair(Long id) throws Exception {
+        try {
+            repairRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     public RepairEntity updateRepair(RepairEntity repair) {
         RepairEntity existingRepair = repairRepository.findById(repair.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Repair with id " + repair.getId() + "does not exist."));

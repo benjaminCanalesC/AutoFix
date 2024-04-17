@@ -26,7 +26,7 @@ public class SummaryController {
         return ResponseEntity.ok(repairs);
     }
 
-    @GetMapping("/RepairsByEngineType")
+    @GetMapping("/repairsByEngineType")
     public ResponseEntity<List<VehicleTypeMotorRepairsDto>> getTypeMotorRepairsSummary() {
         List<VehicleTypeMotorRepairsDto> repairs = summaryService.getRepairsEngineType();
         return ResponseEntity.ok(repairs);
@@ -38,7 +38,7 @@ public class SummaryController {
         return ResponseEntity.ok(repairs);
     }
 
-    @GetMapping("/vehicleTypeByRepairs")
+    @GetMapping("/repairsByVehicleType")
     public ResponseEntity<List<VehicleTypeRepairsDto>> getRepairVehicleTypeSummary() {
         List<VehicleTypeRepairsDto> repairs = summaryService.getRepairsVehicleType();
         return ResponseEntity.ok(repairs);

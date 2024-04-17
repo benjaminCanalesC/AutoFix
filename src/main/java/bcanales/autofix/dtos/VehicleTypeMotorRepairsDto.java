@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VehicleTypeMotorRepairsDto {
     private String repairType;
-    private String engineType;
-    private Long numberOfVehicles;
-    private Long totalAmount;
+    private Long gasolineCount;
+    private Long dieselCount;
+    private Long hybridCount;
+    private Long electricCount;
+    private Long totalCost;
 }

@@ -32,10 +32,12 @@ public class SummaryService {
         List<VehicleTypeMotorRepairsDto> dtoList = new ArrayList<>();
         for (Object[] result : results) {
             String repairType = (String) result[0];
-            String engineType = (String) result[1];
-            Long numberOfVehicles = (Long) result[2];
-            Long totalAmount = (Long) result[3];
-            dtoList.add(new VehicleTypeMotorRepairsDto(repairType, engineType, numberOfVehicles, totalAmount));
+            Long gasolineCount = (Long) result[1];
+            Long dieselCount = (Long) result[2];
+            Long hybridCount = (Long) result[3];
+            Long electricCount = (Long) result[4];
+            Long totalCost = (Long) result[5];
+            dtoList.add(new VehicleTypeMotorRepairsDto(repairType, gasolineCount, dieselCount, hybridCount, electricCount, totalCost));
         }
         return dtoList;
     }
@@ -60,10 +62,13 @@ public class SummaryService {
         List<VehicleTypeRepairsDto> dtoList = new ArrayList<>();
         for (Object[] result : results) {
             String repairType = (String) result[0];
-            String vehicleType = (String) result[1];
-            Long vehicleCount = (Long) result[2];
-            Long totalCost = (Long) result[3];
-            dtoList.add(new VehicleTypeRepairsDto(repairType, vehicleType, vehicleCount, totalCost));
+            Long hatchbackCount = (Long) result[1];
+            Long suvCount = (Long) result[2];
+            Long sedanCount = (Long) result[3];
+            Long pickupCount = (Long) result[4];
+            Long vanCount = (Long) result[5];
+            Long totalCost = (Long) result[6];
+            dtoList.add(new VehicleTypeRepairsDto(repairType, hatchbackCount, suvCount, sedanCount, pickupCount, vanCount, totalCost));
         }
         return dtoList;
     }

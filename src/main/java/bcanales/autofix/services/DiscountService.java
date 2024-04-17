@@ -16,7 +16,7 @@ public class DiscountService {
         int vehicleRepairs = repairRepository.countByVehicleId(vehicle.getId());
         String vehicleEngine = vehicle.getVehicleEngine().getEngine();
 
-        if (vehicleEngine.equals("Gasoline")){
+        if (vehicleEngine.equals("Gasolina")){
             if (vehicleRepairs == 0) { return 0; }
             else if (vehicleRepairs <= 2) { return 0.05; }
             else if (vehicleRepairs <= 5) { return 0.1; }
@@ -28,7 +28,7 @@ public class DiscountService {
             else if (vehicleRepairs <= 5) { return 0.12; }
             else if (vehicleRepairs <= 9) { return 0.17; }
             else { return 0.22; }
-        } else if (vehicleEngine.equals("Hybrid")) {
+        } else if (vehicleEngine.equals("Hibrido")) {
             if (vehicleRepairs == 0) { return 0; }
             else if (vehicleRepairs <= 2) { return 0.1; }
             else if (vehicleRepairs <= 5) { return 0.15; }
@@ -36,10 +36,10 @@ public class DiscountService {
             else { return 0.25; }
         } else {
             if (vehicleRepairs == 0) { return 0; }
-            else if (vehicleRepairs == 2) { return 0.08; }
+            else if (vehicleRepairs <= 2) { return 0.08; }
             else if (vehicleRepairs <= 5) { return 0.13; }
             else if (vehicleRepairs <= 9) { return 0.18; }
-            else { return 0.3; }
+            else { return 0.23; }
         }
     }
 

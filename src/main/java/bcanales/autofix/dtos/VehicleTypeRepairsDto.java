@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VehicleTypeRepairsDto {
     private String repairType;
-    private String vehicleType;
-    private Long vehicleCount;
+    private Long hatchbackCount;
+    private Long suvCount;
+    private Long sedanCount;
+    private Long pickupCount;
+    private Long vanCount;
     private Long totalCost;
 }

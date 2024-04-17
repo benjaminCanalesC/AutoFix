@@ -41,4 +41,10 @@ public class RepairController {
         RepairEntity newRepair = repairService.updateRepair(repair);
         return ResponseEntity.ok(newRepair);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<RepairEntity> deleteRepair(@PathVariable Long id) throws Exception {
+        repairService.deleteRepair(id);
+        return ResponseEntity.noContent().build();
+    }
 }
