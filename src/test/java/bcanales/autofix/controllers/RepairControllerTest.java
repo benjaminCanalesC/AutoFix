@@ -17,6 +17,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -137,5 +138,11 @@ public class RepairControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    public void deleteRepairById_shouldReturn204() throws Exception {
+        when(repairService.deleteRepair(1L)).thenReturn(true);
 
+        mockMvc.perform(delete("/api/repairs/1"))
+                .andExpect(status().isNoContent());
+    }
 }

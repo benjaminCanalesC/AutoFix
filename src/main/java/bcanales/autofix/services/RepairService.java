@@ -62,7 +62,7 @@ public class RepairService {
 
     public RepairEntity updateRepair(RepairEntity repair) {
         RepairEntity existingRepair = repairRepository.findById(repair.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Repair with id " + repair.getId() + "does not exist."));
+                .orElseThrow(() -> new EntityNotFoundException("Repair with id " + repair.getId() + " does not exist."));
 
         if (repair.getExitDateTime() != null) {
             existingRepair.setExitDateTime(repair.getExitDateTime());
