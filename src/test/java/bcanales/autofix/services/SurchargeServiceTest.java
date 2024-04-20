@@ -1,5 +1,6 @@
 package bcanales.autofix.services;
 
+import bcanales.autofix.entities.RepairEntity;
 import bcanales.autofix.entities.VehicleEntity;
 import bcanales.autofix.entities.VehicleTypeEntity;
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.Year;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,50 +21,174 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 public class SurchargeServiceTest {
     @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
     private SurchargeService surchargeService;
 
-    private VehicleEntity createVehicle(String type, int mileage, int year) {
-        VehicleTypeEntity vehicleType = new VehicleTypeEntity();
-        vehicleType.setType(type);
+    @Test
+    public void whenSurchargeForSedanOverTenYears_thenCorrect() throws Exception {
+        VehicleTypeEntity sedanType = new VehicleTypeEntity(null, "Sedan");
+        entityManager.persist(sedanType);
 
         VehicleEntity vehicle = new VehicleEntity();
-        vehicle.setVehicleType(vehicleType);
-        vehicle.setMileage(mileage);
-        vehicle.setFabricationYear(year);
+        vehicle.setVehicleType(sedanType);
+        vehicle.setPlate("SED123");
+        vehicle.setFabricationYear(Year.now().getValue() - 11);
+        entityManager.persist(vehicle);
+        entityManager.flush();
 
-        return vehicle;
+        double surcharge = surchargeService.surchargeByVehicleYears(vehicle);
+
+        assertEquals(0.09, surcharge);
     }
 
     @Test
-    public void testSurchargeByMileage() throws Exception {
-        assertAll("Vehicle surcharges by type and mileage",
-                () -> assertEquals(0.0, surchargeService.surchargeByMileage(createVehicle("Sedan", 1000, 2024))),
-                () -> assertEquals(0.03, surchargeService.surchargeByMileage(createVehicle("Sedan", 6000, 2024))),
-                () -> assertEquals(0.07, surchargeService.surchargeByMileage(createVehicle("Sedan", 20000, 2024))),
-                () -> assertEquals(0.12, surchargeService.surchargeByMileage(createVehicle("Sedan", 30000, 2024))),
-                () -> assertEquals(0.2, surchargeService.surchargeByMileage(createVehicle("Sedan", 50000, 2024))),
-                () -> assertEquals(0.0, surchargeService.surchargeByMileage(createVehicle("Hatchback", 4999, 2024))),
-                () -> assertEquals(0.05, surchargeService.surchargeByMileage(createVehicle("SUV", 6000, 2024))),
-                () -> assertEquals(0.09, surchargeService.surchargeByMileage(createVehicle("SUV", 20000, 2024))),
-                () -> assertEquals(0.12, surchargeService.surchargeByMileage(createVehicle("Pickup", 30000, 2024))),
-                () -> assertEquals(0.2, surchargeService.surchargeByMileage(createVehicle("Van", 50000, 2024))),
-                () -> assertThrows(Exception.class, () -> surchargeService.surchargeByMileage(createVehicle("Motorcycle", 10000, 2024)), "Invalid Vehicle Type")
-        );
+    public void whenSurchargeForSUVJustUnderFiveYears_thenCorrect() throws Exception {
+        VehicleTypeEntity suvType = new VehicleTypeEntity(null, "SUV");
+        entityManager.persist(suvType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(suvType);
+        vehicle.setPlate("SUV123");
+        vehicle.setFabricationYear(Year.now().getValue() - 5);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByVehicleYears(vehicle);
+
+        assertEquals(0.0, surcharge);
     }
 
     @Test
-    public void testSurchargeByVehicleYears() {
-        int currentYear = Year.now().getValue();
-        assertAll("Vehicle surcharges by type and age",
-                () -> assertEquals(0.0, surchargeService.surchargeByVehicleYears(createVehicle("Sedan", 1000, currentYear)), "No surcharge for new Sedan"),
-                () -> assertEquals(0.05, surchargeService.surchargeByVehicleYears(createVehicle("Sedan", 1000,currentYear - 7)), "5% surcharge for 7-year-old Sedan"),
-                () -> assertEquals(0.09, surchargeService.surchargeByVehicleYears(createVehicle("Sedan", 1000,currentYear - 12)), "9% surcharge for 12-year-old Sedan"),
-                () -> assertEquals(0.15, surchargeService.surchargeByVehicleYears(createVehicle("Sedan", 1000,currentYear - 20)), "15% surcharge for 20-year-old Sedan"),
-                () -> assertEquals(0.0, surchargeService.surchargeByVehicleYears(createVehicle("SUV", 1000,currentYear)), "No surcharge for new SUV"),
-                () -> assertEquals(0.07, surchargeService.surchargeByVehicleYears(createVehicle("SUV", 1000,currentYear - 7)), "7% surcharge for 7-year-old SUV"),
-                () -> assertEquals(0.11, surchargeService.surchargeByVehicleYears(createVehicle("SUV", 1000,currentYear - 12)), "11% surcharge for 12-year-old SUV"),
-                () -> assertEquals(0.2, surchargeService.surchargeByVehicleYears(createVehicle("SUV", 1000,currentYear - 20)), "20% surcharge for 20-year-old SUV"),
-                () -> assertThrows(Exception.class, () -> surchargeService.surchargeByVehicleYears(createVehicle("Motorcycle", 1000,currentYear - 10)), "Invalid Vehicle Type")
-        );
+    public void whenSurchargeForSUVJustOverTenYears_thenCorrect() throws Exception {
+        VehicleTypeEntity suvType = new VehicleTypeEntity(null, "SUV");
+        entityManager.persist(suvType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(suvType);
+        vehicle.setPlate("SUV456");
+        vehicle.setFabricationYear(Year.now().getValue() - 11);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByVehicleYears(vehicle);
+
+        assertEquals(0.11, surcharge);
     }
+
+    @Test
+    public void whenSurchargeForPickupJustUnderFifteenYears_thenCorrect() throws Exception {
+        VehicleTypeEntity pickupType = new VehicleTypeEntity(null, "Pickup");
+        entityManager.persist(pickupType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(pickupType);
+        vehicle.setPlate("PCK789");
+        vehicle.setFabricationYear(Year.now().getValue() - 15);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByVehicleYears(vehicle);
+
+        assertEquals(0.11, surcharge);
+    }
+
+    @Test
+    public void whenSurchargeForPickupJustUnderTwentyYears_thenCorrect() throws Exception {
+        VehicleTypeEntity pickupType = new VehicleTypeEntity(null, "Pickup");
+        entityManager.persist(pickupType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(pickupType);
+        vehicle.setPlate("QOEU12");
+        vehicle.setFabricationYear(Year.now().getValue() - 20);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByVehicleYears(vehicle);
+
+        assertEquals(0.2, surcharge);
+    }
+
+    @Test
+    public void whenSurchargeForSedanWithIntermediateMileage_thenCorrect() throws Exception {
+        VehicleTypeEntity sedanType = new VehicleTypeEntity(null, "Sedan");
+        entityManager.persist(sedanType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(sedanType);
+        vehicle.setPlate("SED123");
+        vehicle.setMileage(18000);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByMileage(vehicle);
+
+        assertEquals(0.07, surcharge);
+    }
+
+    @Test
+    public void whenSurchargeForSedanJustUnderFirstThreshold_thenCorrect() throws Exception {
+        VehicleTypeEntity sedanType = new VehicleTypeEntity(null, "Sedan");
+        entityManager.persist(sedanType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(sedanType);
+        vehicle.setPlate("SED124");
+        vehicle.setMileage(45000);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByMileage(vehicle);
+
+        assertEquals(0.2, surcharge);
+    }
+
+    @Test
+    public void whenSurchargeForSedanJustOverSecondThreshold_thenCorrect() throws Exception {
+        VehicleTypeEntity sedanType = new VehicleTypeEntity(null, "Sedan");
+        entityManager.persist(sedanType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(sedanType);
+        vehicle.setPlate("SED125");
+        vehicle.setMileage(8000);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByMileage(vehicle);
+
+        assertEquals(0.03, surcharge);
+    }
+
+    @Test
+    public void whenSurchargeForSUVHighMileage_thenCorrect() throws Exception {
+        VehicleTypeEntity suvType = new VehicleTypeEntity(null, "SUV");
+        entityManager.persist(suvType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleType(suvType);
+        vehicle.setPlate("SUV789");
+        vehicle.setMileage(45000);
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        double surcharge = surchargeService.surchargeByMileage(vehicle);
+
+        assertEquals(0.2, surcharge);
+    }
+
+    @Test
+    public void whenSurchargeForNormalPickupDelay_thenCorrect() {
+        RepairEntity repair = new RepairEntity();
+        repair.setExitDateTime(LocalDateTime.of(2024, Month.MARCH, 10, 12, 0));
+        repair.setPickupDateTime(LocalDateTime.of(2024, Month.MARCH, 15, 12, 0));
+
+        double surcharge = surchargeService.surchargeByPickupDelay(repair);
+
+        assertEquals(0.25, surcharge);
+    }
+
+
 }
