@@ -14,6 +14,9 @@ public class VehicleService {
     @Autowired
     VehicleRepository vehicleRepository;
     public VehicleEntity saveVehicle(VehicleEntity vehicle) throws Exception {
+
+        System.out.println(vehicle.getVehicleBrand());
+
         //Correctly plate analyze
         String plate = vehicle.getPlate();
         if (plate.length() != 6) {

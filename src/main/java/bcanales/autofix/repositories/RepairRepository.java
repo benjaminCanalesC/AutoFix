@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RepairRepository extends JpaRepository<RepairEntity, Long> {
     int countByVehicleId(Long vehicleId);
+
+    List<RepairEntity> getRepairsByVehicleId(Long vehicleId);
 
     @Query(value = "SELECT rt.repair_type, " +
             "COUNT(DISTINCT CASE WHEN vt.type = 'Hatchback' THEN v.id ELSE NULL END) AS hatchbackCount, " +

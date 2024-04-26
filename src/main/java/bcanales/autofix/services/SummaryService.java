@@ -20,8 +20,11 @@ public class SummaryService {
         List<VehicleBrandRepairAverageDto> dtoList = new ArrayList<>();
         for (Object[] result : results) {
             String brand = (String) result[0];
-            BigDecimal averageRepairTimeBD = (BigDecimal) result[1];
-            Double averageRepairTime = averageRepairTimeBD.doubleValue();
+            double averageRepairTime = 0.0;
+            if (result[1] != null) {
+                BigDecimal averageRepairTimeBD = (BigDecimal) result[1];
+                averageRepairTime = averageRepairTimeBD.doubleValue();
+                }
             dtoList.add(new VehicleBrandRepairAverageDto(brand, averageRepairTime));
         }
         return dtoList;

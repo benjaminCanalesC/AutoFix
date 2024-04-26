@@ -69,6 +69,30 @@ public class DiscountServiceTest {
     }
 
     @Test
+    public void whenGetDiscountWithElevenRepairs_thenCorrect() {
+        VehicleEngineEntity dieselType = new VehicleEngineEntity(null, "Gasolina");
+        entityManager.persist(dieselType);
+
+        VehicleEntity vehicle = new VehicleEntity();
+        vehicle.setVehicleEngine(dieselType);
+        vehicle.setPlate("OCUQ51");
+
+        entityManager.persist(vehicle);
+        entityManager.flush();
+
+        for (int i = 0; i < 11; i++) {
+            RepairEntity repair = new RepairEntity();
+            repair.setVehicle(vehicle);
+            entityManager.persist(repair);
+        }
+        entityManager.flush();
+
+        double discountPercentage = discountService.discountByRepairs(vehicle);
+
+        assertEquals(0.2, discountPercentage);
+    }
+
+    @Test
     public void whenGetDiscountWithThreeRepairs_thenCorrect() {
         VehicleEngineEntity dieselType = new VehicleEngineEntity(null, "Diesel");
         entityManager.persist(dieselType);
@@ -80,7 +104,6 @@ public class DiscountServiceTest {
         entityManager.persist(vehicle);
         entityManager.flush();
 
-        // Simulate 3 repairs
         for (int i = 0; i < 3; i++) {
             RepairEntity repair = new RepairEntity();
             repair.setVehicle(vehicle);
@@ -94,7 +117,7 @@ public class DiscountServiceTest {
     }
 
     @Test
-    public void whenGetDiscountWithEightRepairs_thenCorrect() {
+    public void whenGetDiscountWithTenRepairs_thenCorrect() {
         VehicleEngineEntity hybridType = new VehicleEngineEntity(null, "Hibrido");
         entityManager.persist(hybridType);
 
@@ -105,8 +128,7 @@ public class DiscountServiceTest {
         entityManager.persist(vehicle);
         entityManager.flush();
 
-        // Simulate 8 repairs
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 10; i++) {
             RepairEntity repair = new RepairEntity();
             repair.setVehicle(vehicle);
             entityManager.persist(repair);
@@ -115,7 +137,7 @@ public class DiscountServiceTest {
 
         double discountPercentage = discountService.discountByRepairs(vehicle);
 
-        assertEquals(0.2, discountPercentage);
+        assertEquals(0.25, discountPercentage);
     }
 
     @Test
@@ -130,7 +152,6 @@ public class DiscountServiceTest {
         entityManager.persist(vehicle);
         entityManager.flush();
 
-        // Simulate 6 repairs
         for (int i = 0; i < 6; i++) {
             RepairEntity repair = new RepairEntity();
             repair.setVehicle(vehicle);
