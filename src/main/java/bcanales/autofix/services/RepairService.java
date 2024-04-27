@@ -64,11 +64,11 @@ public class RepairService {
         RepairEntity existingRepair = repairRepository.findById(repair.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Repair with id " + repair.getId() + " does not exist."));
 
-        if (repair.getExitDateTime() != existingRepair.getExitDateTime()) {
+        if (repair.getExitDateTime() != null) {
             existingRepair.setExitDateTime(repair.getExitDateTime());
         }
 
-        if (repair.getPickupDateTime() != existingRepair.getPickupDateTime()) {
+        if (repair.getPickupDateTime() != null) {
             existingRepair.setPickupDateTime(repair.getPickupDateTime());
 
             double surchargeByPickupDelayPercentage = surchargeService.surchargeByPickupDelay(existingRepair);
@@ -84,12 +84,12 @@ public class RepairService {
 
             // Aplicación del IVA
             if (repair.getIva() != 0) {
+                existingRepair.setRepairCost(totalCost);
+            } else {
                 int iva = (int) (totalCost * 0.19);
                 existingRepair.setIva(iva);
 
                 existingRepair.setRepairCost(totalCost + iva);
-            } else {
-                existingRepair.setRepairCost(totalCost);
             }
         }
 
