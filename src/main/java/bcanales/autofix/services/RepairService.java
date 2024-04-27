@@ -82,11 +82,15 @@ public class RepairService {
             // Se actualiza el costo total
             int totalCost = existingRepair.getRepairCost() + surchargeByPickupDelay;
 
-            //Provisorio APLICACION DEL IVA
-            int iva = (int) (totalCost * 0.19);
-            existingRepair.setIva(iva);
+            // Aplicación del IVA
+            if (repair.getIva() != 0) {
+                int iva = (int) (totalCost * 0.19);
+                existingRepair.setIva(iva);
 
-            existingRepair.setRepairCost(totalCost + iva);
+                existingRepair.setRepairCost(totalCost + iva);
+            } else {
+                existingRepair.setRepairCost(totalCost);
+            }
         }
 
         return repairRepository.save(existingRepair);
