@@ -60,7 +60,7 @@ public class RepairService {
         }
     }
 
-    public RepairEntity updateRepair(RepairEntity repair) throws Exception {
+    public RepairEntity updateRepair(RepairEntity repair) {
         RepairEntity existingRepair = repairRepository.findById(repair.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Repair with id " + repair.getId() + " does not exist."));
 
@@ -75,24 +75,18 @@ public class RepairService {
 
             int surchargeByPickupDelay = (int) (surchargeByPickupDelayPercentage * existingRepair.getBaseRepairCost());
 
-            int repairCost = calculateRepairCost(existingRepair);
-
             // Se actualizan el recargo de la reparación
             int totalSurcharge = existingRepair.getSurcharge() + surchargeByPickupDelay;
             existingRepair.setSurcharge(totalSurcharge);
 
             // Se actualiza el costo total
-            int totalCost = repairCost + surchargeByPickupDelay;
+            int totalCost = existingRepair.getRepairCost() + surchargeByPickupDelay;
 
-            // Aplicación del IVA
-            if (repair.getIva() != 0) {
-                existingRepair.setRepairCost(totalCost);
-            } else {
-                int iva = (int) (totalCost * 0.19);
-                existingRepair.setIva(iva);
+            // Aplicación del IVa
+            int iva = (int) (totalCost * 0.19);
+            existingRepair.setIva(iva);
 
-                existingRepair.setRepairCost(totalCost + iva);
-            }
+            existingRepair.setRepairCost(totalCost + iva);
         }
 
         return repairRepository.save(existingRepair);

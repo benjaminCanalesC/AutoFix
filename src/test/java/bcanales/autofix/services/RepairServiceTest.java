@@ -279,7 +279,7 @@ public class RepairServiceTest {
     }
 
     @Test
-    public void updateRepair_shouldUpdateAndReturnRepair() throws Exception {
+    public void updateRepair_shouldUpdateAndReturnRepair() {
         Long repairId = 1L;
         RepairEntity existingRepair = new RepairEntity();
         existingRepair.setId(repairId);
