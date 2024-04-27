@@ -37,7 +37,7 @@ public class RepairController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<RepairEntity> updateRepair(@RequestBody RepairEntity repair) {
+    public ResponseEntity<RepairEntity> updateRepair(@RequestBody RepairEntity repair) throws Exception {
         RepairEntity newRepair = repairService.updateRepair(repair);
         return ResponseEntity.ok(newRepair);
     }

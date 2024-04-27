@@ -60,27 +60,29 @@ public class RepairService {
         }
     }
 
-    public RepairEntity updateRepair(RepairEntity repair) {
+    public RepairEntity updateRepair(RepairEntity repair) throws Exception {
         RepairEntity existingRepair = repairRepository.findById(repair.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Repair with id " + repair.getId() + " does not exist."));
 
-        if (repair.getExitDateTime() != null) {
+        if (repair.getExitDateTime() != existingRepair.getExitDateTime()) {
             existingRepair.setExitDateTime(repair.getExitDateTime());
         }
 
-        if (repair.getPickupDateTime() != null) {
+        if (repair.getPickupDateTime() != existingRepair.getPickupDateTime()) {
             existingRepair.setPickupDateTime(repair.getPickupDateTime());
 
             double surchargeByPickupDelayPercentage = surchargeService.surchargeByPickupDelay(existingRepair);
 
             int surchargeByPickupDelay = (int) (surchargeByPickupDelayPercentage * existingRepair.getBaseRepairCost());
 
+            int repairCost = calculateRepairCost(existingRepair);
+
             // Se actualizan el recargo de la reparación
             int totalSurcharge = existingRepair.getSurcharge() + surchargeByPickupDelay;
             existingRepair.setSurcharge(totalSurcharge);
 
             // Se actualiza el costo total
-            int totalCost = existingRepair.getRepairCost() + surchargeByPickupDelay;
+            int totalCost = repairCost + surchargeByPickupDelay;
 
             // Aplicación del IVA
             if (repair.getIva() != 0) {
