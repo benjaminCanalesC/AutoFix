@@ -24,15 +24,12 @@ public class VehicleRepositoryTest {
 
     @Test
     public void whenFindVehicleByPlate_thenReturnVehicle() {
-        // Persiste VehicleBrand
         VehicleBrandEntity teslaBrand = new VehicleBrandEntity(null, "Tesla");
         entityManager.persist(teslaBrand);
 
-        // Persiste VehicleType
         VehicleTypeEntity sedanType = new VehicleTypeEntity(null, "Sedan");
         entityManager.persist(sedanType);
 
-        // Persiste VehicleEngine
         VehicleEngineEntity electricType = new VehicleEngineEntity(null, "Electrico");
         entityManager.persist(electricType);
 

@@ -122,7 +122,6 @@ public class SummaryControllerTest {
         expectedDtos.add(new VehicleTypeRepairsDto("Brake System Repairs", 1L, 2L, 1L, 4L, 2L, 120000L));
         given(summaryService.getRepairsVehicleType()).willReturn(expectedDtos);
 
-        // Perform the test
         mockMvc.perform(get("/api/summaries/repairsByVehicleType"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
