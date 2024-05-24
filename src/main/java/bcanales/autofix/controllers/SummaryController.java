@@ -20,27 +20,4 @@ import java.util.List;
 public class SummaryController {
     @Autowired
     SummaryService summaryService;
-    @GetMapping("/averageTimeByBrandReport")
-    public ResponseEntity<List<VehicleBrandRepairAverageDto>> getAverageTimeByBrandSummary() {
-        List<VehicleBrandRepairAverageDto> repairs = summaryService.getAverageRepairTimeByBrand();
-        return ResponseEntity.ok(repairs);
-    }
-
-    @GetMapping("/repairsByEngineType")
-    public ResponseEntity<List<VehicleTypeMotorRepairsDto>> getTypeMotorRepairsSummary() {
-        List<VehicleTypeMotorRepairsDto> repairs = summaryService.getRepairsEngineType();
-        return ResponseEntity.ok(repairs);
-    }
-
-    @GetMapping("/repairDetails")
-    public ResponseEntity<List<RepairDetailsDto>> getRepairDetailsSummary() {
-        List<RepairDetailsDto> repairs = summaryService.getRepairDetails();
-        return ResponseEntity.ok(repairs);
-    }
-
-    @GetMapping("/repairsByVehicleType")
-    public ResponseEntity<List<VehicleTypeRepairsDto>> getRepairVehicleTypeSummary() {
-        List<VehicleTypeRepairsDto> repairs = summaryService.getRepairsVehicleType();
-        return ResponseEntity.ok(repairs);
-    }
 }

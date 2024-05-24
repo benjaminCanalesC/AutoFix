@@ -11,9 +11,6 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class SurchargeService {
-    @Autowired
-    VehicleRepository vehicleRepository;
-
     public double surchargeByMileage(VehicleEntity vehicle) throws Exception {
         String vehicleType = vehicle.getVehicleType().getType();
         int mileage = vehicle.getMileage();

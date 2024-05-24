@@ -29,6 +29,12 @@ public class RepairController {
         return ResponseEntity.ok(repairs);
     }
 
+    @GetMapping("/amountByVehicleId/{id}")
+    public ResponseEntity<Integer> getRepairsAmountByVehicleId(@PathVariable Long id) {
+        int repairs = repairService.getRepairsAmountByVehicleId(id);
+        return ResponseEntity.ok(repairs);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<RepairEntity> getRepairById(@PathVariable Long id) {
         RepairEntity repair = repairService.getRepairById(id)

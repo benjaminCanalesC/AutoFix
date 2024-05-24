@@ -13,7 +13,7 @@ public class DiscountService {
     @Autowired
     RepairRepository repairRepository;
     public double discountByRepairs(VehicleEntity vehicle) {
-        int vehicleRepairs = repairRepository.countByVehicleId(vehicle.getId());
+        int vehicleRepairs = repairRepository.countByVehicleId(vehicle.getId()) - 1;
         String vehicleEngine = vehicle.getVehicleEngine().getEngine();
 
         if (vehicleEngine.equals("Gasolina")){
